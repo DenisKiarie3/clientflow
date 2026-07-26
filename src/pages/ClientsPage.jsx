@@ -1,14 +1,17 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { RiAddLine } from 'react-icons/ri'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { fetchClients, clientsSelectors, selectClientsStatus, selectClientsError } from '../features/clients/clientsSlice'
 import ClientCard from '../features/clients/ClientCard'
+import ClientForm from '../features/clients/ClientForm'
+import Modal from '../components/common/Modal'
 
 function ClientsPage() {
   const dispatch = useAppDispatch()
   const clients = useAppSelector(clientsSelectors.selectAll)
   const status = useAppSelector(selectClientsStatus)
   const error = useAppSelector(selectClientsError)
+  const [isFormOpen, setFormOpen] = useState(false)
 
   useEffect(() => {
     if (status === 'idle') {
@@ -20,7 +23,10 @@ function ClientsPage() {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <h2 className="font-display font-bold text-xl text-ink">Clients</h2>
-        <button className="flex items-center gap-2 bg-violet text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-violet/90">
+        <button
+          onClick={() => setFormOpen(true)}
+          className="flex items-center gap-2 bg-violet text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-violet/90"
+        >
           <RiAddLine aria-hidden="true" />
           Add client
         </button>
@@ -37,6 +43,10 @@ function ClientsPage() {
           <ClientCard key={client.id} client={client} />
         ))}
       </div>
+
+      <Modal isOpen={isFormOpen} onClose={() => setFormOpen(false)} title="Add client">
+        <ClientForm onSuccess={() => setFormOpen(false)} />
+      </Modal>
     </div>
   )
 }
