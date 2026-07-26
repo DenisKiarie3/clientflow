@@ -1,7 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
+import clientsReducer from '../features/clients/clientsSlice'
 
 export const store = configureStore({
   reducer: {
-    // slices get added here one at a time, as we build each feature
+    clients: clientsReducer,
   },
 })
