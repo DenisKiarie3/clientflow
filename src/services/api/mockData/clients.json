@@ -1,0 +1,6 @@
+[
+  { "id": "client_001", "name": "Acme Co", "email": "billing@acmeco.com", "company": "Acme Co", "phone": "+1 415 555 0101", "notes": "Prefers monthly invoicing." },
+  { "id": "client_002", "name": "Nomad Studio", "email": "hello@nomadstudio.io", "company": "Nomad Studio", "phone": "+1 212 555 0199", "notes": "" },
+  { "id": "client_003", "name": "Fern & Co", "email": "accounts@fernandco.com", "company": "Fern & Co", "phone": "+44 20 7946 0958", "notes": "Net 30 terms." },
+  { "id": "client_004", "name": "Blue Harbor Labs", "email": "finance@blueharborlabs.com", "company": "Blue Harbor Labs", "phone": "+1 646 555 0133", "notes": "" }
+]
