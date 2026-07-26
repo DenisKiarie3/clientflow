@@ -1,0 +1,5 @@
+function LoginPage() {
+  return <div className="min-h-screen flex items-center justify-center bg-paper text-ink">Login page goes here.</div>
+}
+
+export default LoginPage
