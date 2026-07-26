@@ -1,0 +1,49 @@
+[
+  {
+    "id": "inv_001",
+    "invoiceNumber": "INV-0001",
+    "clientId": "client_001",
+    "issueDate": "2026-07-01",
+    "dueDate": "2026-07-15",
+    "status": "paid",
+    "taxRate": 0.08,
+    "notes": "",
+    "lineItems": [{ "id": "li_001", "description": "Homepage redesign", "quantity": 1, "unitPrice": 1200 }]
+  },
+  {
+    "id": "inv_002",
+    "invoiceNumber": "INV-0002",
+    "clientId": "client_002",
+    "issueDate": "2026-07-10",
+    "dueDate": "2026-07-24",
+    "status": "sent",
+    "taxRate": 0.08,
+    "notes": "",
+    "lineItems": [
+      { "id": "li_002", "description": "Brand strategy session", "quantity": 4, "unitPrice": 150 },
+      { "id": "li_003", "description": "Logo design", "quantity": 1, "unitPrice": 950 }
+    ]
+  },
+  {
+    "id": "inv_003",
+    "invoiceNumber": "INV-0003",
+    "clientId": "client_003",
+    "issueDate": "2026-06-20",
+    "dueDate": "2026-07-04",
+    "status": "overdue",
+    "taxRate": 0.0,
+    "notes": "Net 30 terms",
+    "lineItems": [{ "id": "li_004", "description": "Monthly retainer — June", "quantity": 1, "unitPrice": 2400 }]
+  },
+  {
+    "id": "inv_004",
+    "invoiceNumber": "INV-0004",
+    "clientId": "client_001",
+    "issueDate": "2026-07-20",
+    "dueDate": "2026-08-03",
+    "status": "draft",
+    "taxRate": 0.08,
+    "notes": "",
+    "lineItems": [{ "id": "li_005", "description": "Landing page copy", "quantity": 1, "unitPrice": 450 }]
+  }
+]
