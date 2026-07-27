@@ -68,4 +68,11 @@ export const selectInvoicesWithClientNames = createSelector(
     }))
 )
 
+export const makeSelectInvoiceWithClient = (invoiceId) =>
+  createSelector(
+    [(state) => invoicesSelectors.selectById(state, invoiceId), clientsSelectors.selectEntities],
+    (invoice, clientsById) =>
+      invoice ? { ...invoice, client: clientsById[invoice.clientId] } : undefined
+  )
+
 export default invoicesSlice.reducer
