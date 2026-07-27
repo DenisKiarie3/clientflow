@@ -14,3 +14,8 @@ export function calculateTotal(lineItems, taxRate) {
   const subtotal = calculateSubtotal(lineItems)
   return subtotal + calculateTax(subtotal, taxRate)
 }
+
+export function isOverdue(invoice) {
+  const today = new Date().toISOString().slice(0, 10)
+  return invoice.status === 'sent' && invoice.dueDate < today
+}

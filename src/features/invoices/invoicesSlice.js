@@ -19,7 +19,7 @@ export const editInvoice = createAsyncThunk('invoices/editInvoice', async ({ inv
 })
 
 export const markInvoicePaid = createAsyncThunk('invoices/markInvoicePaid', async (invoiceId) => {
-  return await invoicesService.updateInvoice(invoiceId, { status: 'paid' })
+  return await invoicesService.updateInvoice(invoiceId, { status: 'paid', paidAt: new Date().toISOString() })
 })
 
 export const removeInvoice = createAsyncThunk('invoices/removeInvoice', async (invoiceId) => {
