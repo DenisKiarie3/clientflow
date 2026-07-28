@@ -2,21 +2,48 @@ import { useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { RiCloseLine } from 'react-icons/ri'
 
+const FOCUSABLE_SELECTOR = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+
 function Modal({ isOpen, onClose, title, children }) {
   const dialogRef = useRef(null)
+  const triggerElementRef = useRef(null)
 
   useEffect(() => {
     if (!isOpen) return
 
+    triggerElementRef.current = document.activeElement
+
     function handleKeyDown(e) {
-      if (e.key === 'Escape') onClose()
+      if (e.key === 'Escape') {
+        onClose()
+        return
+      }
+
+      if (e.key !== 'Tab') return
+
+      const focusableElements = dialogRef.current?.querySelectorAll(FOCUSABLE_SELECTOR)
+      if (!focusableElements || focusableElements.length === 0) return
+
+      const first = focusableElements[0]
+      const last = focusableElements[focusableElements.length - 1]
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
     }
 
     document.addEventListener('keydown', handleKeyDown)
-    const firstField = dialogRef.current?.querySelector('input, textarea, select, button')
+    const firstField = dialogRef.current?.querySelector(FOCUSABLE_SELECTOR)
     firstField?.focus()
 
-    return () => document.removeEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      triggerElementRef.current?.focus()
+    }
   }, [isOpen, onClose])
 
   return (
