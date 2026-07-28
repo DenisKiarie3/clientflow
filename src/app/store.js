@@ -3,12 +3,14 @@ import clientsReducer from '../features/clients/clientsSlice'
 import invoicesReducer from '../features/invoices/invoicesSlice'
 import uiReducer from '../features/ui/uiSlice'
 import authReducer from '../features/auth/authSlice'
+import settingsReducer from '../features/settings/settingsSlice'
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     clients: clientsReducer,
     invoices: invoicesReducer,
+    settings: settingsReducer,
     ui: uiReducer,
   },
 })

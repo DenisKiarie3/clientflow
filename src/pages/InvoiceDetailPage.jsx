@@ -7,6 +7,7 @@ import InvoicePreview from '../features/invoices/InvoicePreview'
 import ConfirmDialog from '../components/common/ConfirmDialog'
 import { ROUTES } from '../constants/routes'
 import { addToast } from '../features/ui/uiSlice'
+import { fetchSettings, selectSettingsData, selectSettingsStatus } from '../features/settings/settingsSlice'
 
 function InvoiceDetailPage() {
   const { invoiceId } = useParams()
@@ -15,6 +16,8 @@ function InvoiceDetailPage() {
 
   const invoicesStatus = useAppSelector(selectInvoicesStatus)
   const clientsStatus = useAppSelector(selectClientsStatus)
+  const settings = useAppSelector(selectSettingsData)
+  const settingsStatus = useAppSelector(selectSettingsStatus)
 
   const selectInvoiceWithClient = useMemo(() => makeSelectInvoiceWithClient(invoiceId), [invoiceId])
   const invoice = useAppSelector(selectInvoiceWithClient)
@@ -25,9 +28,10 @@ function InvoiceDetailPage() {
   useEffect(() => {
     if (invoicesStatus === 'idle') dispatch(fetchInvoices())
     if (clientsStatus === 'idle') dispatch(fetchClients())
-  }, [invoicesStatus, clientsStatus, dispatch])
+    if (settingsStatus === 'idle') dispatch(fetchSettings())
+  }, [invoicesStatus, clientsStatus, settingsStatus, dispatch])
 
-  const isLoading = invoicesStatus === 'loading' || clientsStatus === 'loading'
+  const isLoading = invoicesStatus === 'loading' || clientsStatus === 'loading' || settingsStatus === 'loading'
 
   if (isLoading) {
     return <p className="text-sm text-slate">Loading invoice…</p>
@@ -89,7 +93,7 @@ function InvoiceDetailPage() {
         </div>
       </div>
 
-      <InvoicePreview invoice={invoice} />
+      <InvoicePreview invoice={invoice} businessName={settings?.businessName} businessEmail={settings?.email} />
 
       <ConfirmDialog
         isOpen={isConfirmingDelete}

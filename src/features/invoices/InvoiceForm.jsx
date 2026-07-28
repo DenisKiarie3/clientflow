@@ -10,6 +10,7 @@ import { invoiceDetailPath } from '../../constants/routes'
 import InvoiceLineItems from './InvoiceLineItems'
 import FormField from '../../components/common/FormField'
 import { addToast } from '../ui/uiSlice'
+import { fetchSettings, selectSettingsData, selectSettingsStatus } from '../settings/settingsSlice'
 
 const makeLineItem = () => ({ id: crypto.randomUUID(), description: '', quantity: 1, unitPrice: 0 })
 
@@ -18,6 +19,8 @@ function InvoiceForm() {
   const navigate = useNavigate()
   const clients = useAppSelector(clientsSelectors.selectAll)
   const clientsStatus = useAppSelector(selectClientsStatus)
+  const settings = useAppSelector(selectSettingsData)
+  const settingsStatus = useAppSelector(selectSettingsStatus)
 
   const [formData, setFormData] = useState({ clientId: '', dueDate: '', taxRatePercent: '8', notes: '' })
   const [lineItems, setLineItems] = useState([makeLineItem()])
@@ -26,7 +29,8 @@ function InvoiceForm() {
 
   useEffect(() => {
     if (clientsStatus === 'idle') dispatch(fetchClients())
-  }, [clientsStatus, dispatch])
+    if (settingsStatus === 'idle') dispatch(fetchSettings())
+  }, [clientsStatus, settingsStatus, dispatch])
 
   function handleFieldChange(e) {
     const { name, value } = e.target
@@ -78,7 +82,7 @@ function InvoiceForm() {
     setIsSubmitting(true)
     try {
       const created = await dispatch(
-        addInvoice({ ...result.data, status, invoiceNumber: `INV-${Date.now().toString().slice(-6)}`, issueDate: new Date().toISOString().slice(0, 10) })
+        addInvoice({ ...result.data, status, invoiceNumber: `${settings?.invoiceNumberPrefix || 'INV'}-${Date.now().toString().slice(-6)}`, issueDate: new Date().toISOString().slice(0, 10) })
       ).unwrap()
       dispatch(addToast(status === 'draft' ? 'Invoice saved as draft' : 'Invoice sent'))
       navigate(invoiceDetailPath(created.id))
