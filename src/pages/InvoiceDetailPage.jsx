@@ -6,6 +6,7 @@ import { fetchClients, selectClientsStatus } from '../features/clients/clientsSl
 import InvoicePreview from '../features/invoices/InvoicePreview'
 import ConfirmDialog from '../components/common/ConfirmDialog'
 import { ROUTES } from '../constants/routes'
+import { addToast } from '../features/ui/uiSlice'
 
 function InvoiceDetailPage() {
   const { invoiceId } = useParams()
@@ -43,13 +44,24 @@ function InvoiceDetailPage() {
 
   async function handleMarkPaid() {
     setIsMarkingPaid(true)
-    await dispatch(markInvoicePaid(invoice.id))
-    setIsMarkingPaid(false)
+    try {
+      await dispatch(markInvoicePaid(invoice.id)).unwrap()
+      dispatch(addToast('Invoice marked as paid'))
+    } catch (err) {
+      dispatch(addToast(err.message ?? 'Could not update invoice. Try again.', 'error'))
+    } finally {
+      setIsMarkingPaid(false)
+    }
   }
 
   async function handleDelete() {
-    await dispatch(removeInvoice(invoice.id))
-    navigate(ROUTES.INVOICES)
+    try {
+      await dispatch(removeInvoice(invoice.id)).unwrap()
+      dispatch(addToast('Invoice deleted'))
+      navigate(ROUTES.INVOICES)
+    } catch (err) {
+      dispatch(addToast(err.message ?? 'Could not delete invoice. Try again.', 'error'))
+    }
   }
 
   const canMarkPaid = invoice.status === 'sent' || invoice.status === 'overdue'

@@ -9,6 +9,7 @@ import { formatCurrency } from '../../utils/formatCurrency'
 import { invoiceDetailPath } from '../../constants/routes'
 import InvoiceLineItems from './InvoiceLineItems'
 import FormField from '../../components/common/FormField'
+import { addToast } from '../ui/uiSlice'
 
 const makeLineItem = () => ({ id: crypto.randomUUID(), description: '', quantity: 1, unitPrice: 0 })
 
@@ -77,14 +78,12 @@ function InvoiceForm() {
     setIsSubmitting(true)
     try {
       const created = await dispatch(
-        addInvoice({
-          ...result.data,
-          status,
-          invoiceNumber: `INV-${Date.now().toString().slice(-6)}`,
-          issueDate: new Date().toISOString().slice(0, 10),
-        })
+        addInvoice({ ...result.data, status, invoiceNumber: `INV-${Date.now().toString().slice(-6)}`, issueDate: new Date().toISOString().slice(0, 10) })
       ).unwrap()
+      dispatch(addToast(status === 'draft' ? 'Invoice saved as draft' : 'Invoice sent'))
       navigate(invoiceDetailPath(created.id))
+    } catch (err) {
+      dispatch(addToast(err.message ?? 'Could not save invoice. Try again.', 'error'))
     } finally {
       setIsSubmitting(false)
     }
