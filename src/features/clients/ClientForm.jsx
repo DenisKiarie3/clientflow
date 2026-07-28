@@ -3,6 +3,7 @@ import { clientSchema } from './clientSchema'
 import { useAppDispatch } from '../../app/hooks'
 import { addClient, editClient } from './clientsSlice'
 import FormField from '../../components/common/FormField'
+import { addToast } from '../ui/uiSlice'
 
 const EMPTY_FORM = { name: '', email: '', company: '', phone: '', notes: '' }
 
@@ -33,13 +34,20 @@ function ClientForm({ initialData, onSuccess }) {
 
     setErrors({})
     setIsSubmitting(true)
-    if (isEditing) {
-      await dispatch(editClient({ clientId: initialData.id, updates: result.data }))
-    } else {
-      await dispatch(addClient(result.data))
+    try {
+      if (isEditing) {
+        await dispatch(editClient({ clientId: initialData.id, updates: result.data })).unwrap()
+        dispatch(addToast('Client updated'))
+      } else {
+        await dispatch(addClient(result.data)).unwrap()
+        dispatch(addToast('Client added'))
+      }
+      onSuccess?.()
+    } catch (err) {
+      dispatch(addToast(err.message ?? 'Could not save client. Try again.', 'error'))
+    } finally {
+      setIsSubmitting(false)
     }
-    setIsSubmitting(false)
-    onSuccess?.()
   }
 
   return (

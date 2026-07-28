@@ -8,6 +8,7 @@ import ClientForm from '../features/clients/ClientForm'
 import Modal from '../components/common/Modal'
 import ConfirmDialog from '../components/common/ConfirmDialog'
 import { ROUTES } from '../constants/routes'
+import { addToast } from '../features/ui/uiSlice'
 
 function ClientDetailPage() {
   const { clientId } = useParams()
@@ -46,8 +47,13 @@ function ClientDetailPage() {
   const canDelete = clientInvoices.length === 0
 
   async function handleDelete() {
-    await dispatch(removeClient(client.id))
-    navigate(ROUTES.CLIENTS)
+    try {
+      await dispatch(removeClient(client.id)).unwrap()
+      dispatch(addToast('Client deleted'))
+      navigate(ROUTES.CLIENTS)
+    } catch (err) {
+      dispatch(addToast(err.message ?? 'Could not delete client. Try again.', 'error'))
+    }
   }
 
   return (
