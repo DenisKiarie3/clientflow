@@ -2,7 +2,7 @@ import { formatCurrency } from '../../utils/formatCurrency'
 import { calculateLineItemAmount, calculateSubtotal, calculateTax } from '../../utils/invoiceCalculations'
 import StatusBadge from './StatusBadge'
 
-function InvoicePreview({ invoice }) {
+function InvoicePreview({ invoice, businessName, businessEmail }) {
   const subtotal = calculateSubtotal(invoice.lineItems)
   const tax = calculateTax(subtotal, invoice.taxRate)
   const total = subtotal + tax
@@ -17,10 +17,17 @@ function InvoicePreview({ invoice }) {
         <StatusBadge status={invoice.status} />
       </div>
 
-      <div className="border-t border-black/5 pt-4">
-        <p className="text-xs font-medium text-slate mb-1">Bill to</p>
-        <p className="text-sm font-medium text-ink">{invoice.client?.name ?? 'Unknown client'}</p>
-        <p className="text-xs text-slate">{invoice.client?.email}</p>
+      <div className="border-t border-black/5 pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <p className="text-xs font-medium text-slate mb-1">From</p>
+          <p className="text-sm font-medium text-ink">{businessName || 'Your business'}</p>
+          <p className="text-xs text-slate">{businessEmail}</p>
+        </div>
+        <div>
+          <p className="text-xs font-medium text-slate mb-1">Bill to</p>
+          <p className="text-sm font-medium text-ink">{invoice.client?.name ?? 'Unknown client'}</p>
+          <p className="text-xs text-slate">{invoice.client?.email}</p>
+        </div>
       </div>
 
       <div className="border-t border-black/5 pt-4">
