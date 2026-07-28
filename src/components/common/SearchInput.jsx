@@ -10,7 +10,7 @@ function SearchInput({ value, onChange, placeholder = 'Search…' }) {
         onChange={onChange}
         placeholder={placeholder}
         aria-label={placeholder}
-        className="w-full border border-black/10 rounded-lg pl-9 pr-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-violet/40"
+        className="w-full border border-black/10 rounded-lg pl-9 pr-3 py-2 text-base text-ink focus:outline-none focus:ring-2 focus:ring-violet/40"
       />
     </div>
   )

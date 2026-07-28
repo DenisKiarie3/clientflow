@@ -65,7 +65,7 @@ function ClientForm({ initialData, onSuccess }) {
           rows={3}
           value={formData.notes}
           onChange={handleChange}
-          className="border border-black/10 rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-violet/40 resize-none"
+          className="border border-black/10 rounded-lg px-3 py-2 text-base text-ink focus:outline-none focus:ring-2 focus:ring-violet/40 resize-none"
         />
       </div>
 

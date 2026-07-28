@@ -10,7 +10,7 @@ function FormField({ label, name, type = 'text', value, onChange, error, ...rest
         onChange={onChange}
         aria-invalid={Boolean(error)}
         aria-describedby={error ? `${name}-error` : undefined}
-        className={`border rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-violet/40 ${
+        className={`border rounded-lg px-3 py-2 text-base text-ink focus:outline-none focus:ring-2 focus:ring-violet/40 ${
           error ? 'border-coral' : 'border-black/10'
         }`}
         {...rest}
