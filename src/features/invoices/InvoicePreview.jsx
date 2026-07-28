@@ -2,7 +2,7 @@ import { formatCurrency } from '../../utils/formatCurrency'
 import { calculateLineItemAmount, calculateSubtotal, calculateTax } from '../../utils/invoiceCalculations'
 import StatusBadge from './StatusBadge'
 
-function InvoicePreview({ invoice, businessName, businessEmail }) {
+function InvoicePreview({ invoice, businessName, businessEmail, currency = 'USD' }) {
   const subtotal = calculateSubtotal(invoice.lineItems)
   const tax = calculateTax(subtotal, invoice.taxRate)
   const total = subtotal + tax
@@ -42,8 +42,8 @@ function InvoicePreview({ invoice, businessName, businessEmail }) {
             <div key={item.id} className="grid grid-cols-2 md:grid-cols-[1fr_60px_100px_100px] gap-2 text-sm text-ink py-1">
               <span className="col-span-2 md:col-span-1">{item.description}</span>
               <span className="text-right font-mono text-xs md:text-sm">{item.quantity}</span>
-              <span className="text-right font-mono text-xs md:text-sm">{formatCurrency(item.unitPrice)}</span>
-              <span className="text-right font-mono text-xs md:text-sm">{formatCurrency(calculateLineItemAmount(item))}</span>
+              <span className="text-right font-mono text-xs md:text-sm">{formatCurrency(item.unitPrice, currency)}</span>
+              <span className="text-right font-mono text-xs md:text-sm">{formatCurrency(calculateLineItemAmount(item), currency)}</span>
             </div>
           ))}
         </div>
@@ -52,15 +52,15 @@ function InvoicePreview({ invoice, businessName, businessEmail }) {
       <div className="flex flex-col items-end gap-1 border-t border-black/5 pt-4">
         <div className="flex gap-4 text-sm text-slate">
           <span>Subtotal</span>
-          <span className="font-mono text-ink w-24 text-right">{formatCurrency(subtotal)}</span>
+          <span className="font-mono text-ink w-24 text-right">{formatCurrency(subtotal, currency)}</span>
         </div>
         <div className="flex gap-4 text-sm text-slate">
           <span>Tax ({(invoice.taxRate * 100).toFixed(0)}%)</span>
-          <span className="font-mono text-ink w-24 text-right">{formatCurrency(tax)}</span>
+          <span className="font-mono text-ink w-24 text-right">{formatCurrency(tax, currency)}</span>
         </div>
         <div className="flex gap-4 text-base font-medium text-ink">
           <span>Total</span>
-          <span className="font-mono w-24 text-right">{formatCurrency(total)}</span>
+          <span className="font-mono w-24 text-right">{formatCurrency(total, currency)}</span>
         </div>
       </div>
 

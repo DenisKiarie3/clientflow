@@ -21,6 +21,7 @@ function InvoiceForm() {
   const clientsStatus = useAppSelector(selectClientsStatus)
   const settings = useAppSelector(selectSettingsData)
   const settingsStatus = useAppSelector(selectSettingsStatus)
+  const currency = settings?.currency || 'USD'
 
   const [formData, setFormData] = useState({ clientId: '', dueDate: '', taxRatePercent: '8', notes: '' })
   const [lineItems, setLineItems] = useState([makeLineItem()])
@@ -125,21 +126,22 @@ function InvoiceForm() {
         onAdd={handleAddLineItem}
         onRemove={handleRemoveLineItem}
         errors={errors}
+        currency={currency}
       />
       {errors.lineItems && <span className="text-xs text-coral-deep">{errors.lineItems}</span>}
 
       <div className="flex flex-col items-end gap-1 border-t border-black/5 pt-4">
         <div className="flex gap-4 text-sm text-slate">
           <span>Subtotal</span>
-          <span className="font-mono text-ink w-24 text-right">{formatCurrency(subtotal)}</span>
+          <span className="font-mono text-ink w-24 text-right">{formatCurrency(subtotal, currency)}</span>
         </div>
         <div className="flex gap-4 text-sm text-slate">
           <span>Tax</span>
-          <span className="font-mono text-ink w-24 text-right">{formatCurrency(tax)}</span>
+          <span className="font-mono text-ink w-24 text-right">{formatCurrency(tax, currency)}</span>
         </div>
         <div className="flex gap-4 text-base font-medium text-ink">
           <span>Total</span>
-          <span className="font-mono w-24 text-right">{formatCurrency(total)}</span>
+          <span className="font-mono w-24 text-right">{formatCurrency(total, currency)}</span>
         </div>
       </div>
 

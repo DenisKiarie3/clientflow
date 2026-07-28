@@ -9,6 +9,7 @@ import Modal from '../components/common/Modal'
 import ConfirmDialog from '../components/common/ConfirmDialog'
 import { ROUTES } from '../constants/routes'
 import { addToast } from '../features/ui/uiSlice'
+import { fetchSettings, selectSettingsData, selectSettingsStatus } from '../features/settings/settingsSlice'
 
 function ClientDetailPage() {
   const { clientId } = useParams()
@@ -18,6 +19,8 @@ function ClientDetailPage() {
   const clientsStatus = useAppSelector(selectClientsStatus)
   const invoicesStatus = useAppSelector(selectInvoicesStatus)
   const client = useAppSelector((state) => clientsSelectors.selectById(state, clientId))
+  const settings = useAppSelector(selectSettingsData)
+  const settingsStatus = useAppSelector(selectSettingsStatus)
 
   const selectInvoicesByClient = useMemo(() => makeSelectInvoicesByClient(clientId), [clientId])
   const clientInvoices = useAppSelector(selectInvoicesByClient)
@@ -28,9 +31,10 @@ function ClientDetailPage() {
   useEffect(() => {
     if (clientsStatus === 'idle') dispatch(fetchClients())
     if (invoicesStatus === 'idle') dispatch(fetchInvoices())
-  }, [clientsStatus, invoicesStatus, dispatch])
+    if (settingsStatus === 'idle') dispatch(fetchSettings())
+  }, [clientsStatus, invoicesStatus, settingsStatus, dispatch])
 
-  const isLoading = clientsStatus === 'loading' || invoicesStatus === 'loading'
+  const isLoading = clientsStatus === 'loading' || invoicesStatus === 'loading' || settingsStatus === 'loading'
 
   if (isLoading) return <p className="text-sm text-slate">Loading client…</p>
 
@@ -105,7 +109,7 @@ function ClientDetailPage() {
         ) : (
           <div className="flex flex-col gap-2">
             {invoicesForClient.map((invoice) => (
-              <InvoiceCard key={invoice.id} invoice={invoice} />
+              <InvoiceCard key={invoice.id} invoice={invoice} currency={settings?.currency || 'USD'} />
             ))}
           </div>
         )}

@@ -1,7 +1,7 @@
 import { RiDeleteBinLine, RiAddLine } from 'react-icons/ri'
 import { formatCurrency } from '../../utils/formatCurrency'
 
-function InvoiceLineItems({ lineItems, onChange, onAdd, onRemove, errors }) {
+function InvoiceLineItems({ lineItems, onChange, onAdd, onRemove, errors, currency = 'USD' }) {
   return (
     <div className="flex flex-col gap-3">
       <div className="hidden md:grid grid-cols-[1fr_80px_110px_100px_36px] gap-2 text-xs font-medium text-slate px-1">
@@ -46,7 +46,7 @@ function InvoiceLineItems({ lineItems, onChange, onAdd, onRemove, errors }) {
               aria-label="Unit price"
               className="w-full border border-black/10 rounded-lg px-3 py-2 text-base text-ink"
             />
-            <span className="font-mono text-sm text-ink text-right pt-2">{formatCurrency(amount)}</span>
+            <span className="font-mono text-sm text-ink text-right pt-2">{formatCurrency(amount, currency)}</span>
             <button
               type="button"
               onClick={() => onRemove(item.id)}

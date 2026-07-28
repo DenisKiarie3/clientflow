@@ -4,7 +4,7 @@ import { calculateTotal } from '../../utils/invoiceCalculations'
 import { formatCurrency } from '../../utils/formatCurrency'
 import StatusBadge from './StatusBadge'
 
-function InvoiceCard({ invoice }) {
+function InvoiceCard({ invoice, currency = 'USD' }) {
   const total = calculateTotal(invoice.lineItems, invoice.taxRate)
 
   return (
@@ -17,7 +17,7 @@ function InvoiceCard({ invoice }) {
         <p className="text-xs text-slate">{invoice.invoiceNumber} · Due {invoice.dueDate}</p>
       </div>
       <div className="flex items-center gap-3">
-        <span className="font-mono text-sm text-ink">{formatCurrency(total)}</span>
+        <span className="font-mono text-sm text-ink">{formatCurrency(total, currency)}</span>
         <StatusBadge status={invoice.status} />
       </div>
     </Link>

@@ -93,7 +93,7 @@ function InvoiceDetailPage() {
         </div>
       </div>
 
-      <InvoicePreview invoice={invoice} businessName={settings?.businessName} businessEmail={settings?.email} />
+      <InvoicePreview invoice={invoice} businessName={settings?.businessName} businessEmail={settings?.email} currency={settings?.currency || 'USD'} />
 
       <ConfirmDialog
         isOpen={isConfirmingDelete}
