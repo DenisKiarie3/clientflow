@@ -14,6 +14,7 @@ import SearchInput from '../components/common/SearchInput'
 import useDebounce from '../hooks/useDebounce'
 import { ROUTES } from '../constants/routes'
 import { STATUS_META } from '../constants/invoiceStatus'
+import { fetchSettings, selectSettingsData, selectSettingsStatus } from '../features/settings/settingsSlice'
 
 const STATUS_FILTER_OPTIONS = [
   { value: 'all', label: 'All statuses' },
@@ -31,12 +32,16 @@ function InvoicesPage() {
   const [statusFilter, setStatusFilter] = useState('all')
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
 
+  const settings = useAppSelector(selectSettingsData)
+  const settingsStatus = useAppSelector(selectSettingsStatus)
+
   useEffect(() => {
     if (invoicesStatus === 'idle') dispatch(fetchInvoices())
     if (clientsStatus === 'idle') dispatch(fetchClients())
-  }, [invoicesStatus, clientsStatus, dispatch])
+    if (settingsStatus === 'idle') dispatch(fetchSettings())
+  }, [invoicesStatus, clientsStatus, settingsStatus, dispatch])
 
-  const isLoading = invoicesStatus === 'loading' || clientsStatus === 'loading'
+  const isLoading = invoicesStatus === 'loading' || clientsStatus === 'loading' || settingsStatus === 'loading'
 
   const filteredInvoices = useMemo(() => {
     const query = debouncedSearchTerm.trim().toLowerCase()
@@ -90,7 +95,7 @@ function InvoicesPage() {
 
       <div className="flex flex-col gap-2">
         {filteredInvoices.map((invoice) => (
-          <InvoiceCard key={invoice.id} invoice={invoice} />
+          <InvoiceCard key={invoice.id} invoice={invoice} currency={settings?.currency || 'USD'} />
         ))}
       </div>
     </div>
