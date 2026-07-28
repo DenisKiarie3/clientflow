@@ -4,6 +4,7 @@ import AppLayout from './components/layout/AppLayout'
 import PageLoadingFallback from './components/common/PageLoadingFallback'
 import { ROUTES } from './constants/routes'
 import ToastContainer from './components/common/ToastContainer'
+import ProtectedRoute from './components/layout/ProtectedRoute'
 
 const DashboardPage = lazy(() => import('./pages/DashboardPage'))
 const ClientsPage = lazy(() => import('./pages/ClientsPage'))
@@ -21,14 +22,16 @@ function App() {
       <Suspense fallback={<PageLoadingFallback />}>
         <Routes>
           <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-          <Route element={<AppLayout />}>
-            <Route path={ROUTES.DASHBOARD} element={<DashboardPage />} />
-            <Route path={ROUTES.CLIENTS} element={<ClientsPage />} />
-            <Route path={ROUTES.CLIENT_DETAIL} element={<ClientDetailPage />} />
-            <Route path={ROUTES.INVOICES} element={<InvoicesPage />} />
-            <Route path={ROUTES.INVOICE_CREATE} element={<InvoiceCreatePage />} />
-            <Route path={ROUTES.INVOICE_DETAIL} element={<InvoiceDetailPage />} />
-            <Route path={ROUTES.SETTINGS} element={<SettingsPage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route element={<AppLayout />}>
+              <Route path={ROUTES.DASHBOARD} element={<DashboardPage />} />
+              <Route path={ROUTES.CLIENTS} element={<ClientsPage />} />
+              <Route path={ROUTES.CLIENT_DETAIL} element={<ClientDetailPage />} />
+              <Route path={ROUTES.INVOICES} element={<InvoicesPage />} />
+              <Route path={ROUTES.INVOICE_CREATE} element={<InvoiceCreatePage />} />
+              <Route path={ROUTES.INVOICE_DETAIL} element={<InvoiceDetailPage />} />
+              <Route path={ROUTES.SETTINGS} element={<SettingsPage />} />
+            </Route>
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
