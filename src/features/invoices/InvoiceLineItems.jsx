@@ -23,7 +23,7 @@ function InvoiceLineItems({ lineItems, onChange, onAdd, onRemove, errors }) {
                 placeholder="What did you do?"
                 aria-label="Description"
                 aria-invalid={Boolean(errors[`lineItems.${index}.description`])}
-                className={`w-full border rounded-lg px-3 py-2 text-sm text-ink ${
+                className={`w-full border rounded-lg px-3 py-2 text-base text-ink ${
                   errors[`lineItems.${index}.description`] ? 'border-coral' : 'border-black/10'
                 }`}
               />
@@ -35,7 +35,7 @@ function InvoiceLineItems({ lineItems, onChange, onAdd, onRemove, errors }) {
               value={item.quantity}
               onChange={(e) => onChange(item.id, 'quantity', e.target.value)}
               aria-label="Quantity"
-              className="w-full border border-black/10 rounded-lg px-3 py-2 text-sm text-ink"
+              className="w-full border border-black/10 rounded-lg px-3 py-2 text-base text-ink"
             />
             <input
               type="number"
@@ -44,7 +44,7 @@ function InvoiceLineItems({ lineItems, onChange, onAdd, onRemove, errors }) {
               value={item.unitPrice}
               onChange={(e) => onChange(item.id, 'unitPrice', e.target.value)}
               aria-label="Unit price"
-              className="w-full border border-black/10 rounded-lg px-3 py-2 text-sm text-ink"
+              className="w-full border border-black/10 rounded-lg px-3 py-2 text-base text-ink"
             />
             <span className="font-mono text-sm text-ink text-right pt-2">{formatCurrency(amount)}</span>
             <button

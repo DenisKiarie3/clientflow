@@ -99,7 +99,7 @@ function InvoiceForm() {
             name="clientId"
             value={formData.clientId}
             onChange={handleFieldChange}
-            className={`border rounded-lg px-3 py-2 text-sm text-ink bg-white ${
+            className={`border rounded-lg px-3 py-2 text-base text-ink bg-white ${
               errors.clientId ? 'border-coral' : 'border-black/10'
             }`}
           >

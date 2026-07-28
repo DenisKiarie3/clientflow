@@ -71,7 +71,7 @@ function InvoicesPage() {
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           aria-label="Filter by status"
-          className="border border-black/10 rounded-lg px-3 py-2 text-sm text-ink bg-white sm:w-48"
+          className="border border-black/10 rounded-lg px-3 py-2 text-base text-ink bg-white sm:w-48"
         >
           {STATUS_FILTER_OPTIONS.map((option) => (
             <option key={option.value} value={option.value}>{option.label}</option>
