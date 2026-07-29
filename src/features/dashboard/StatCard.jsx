@@ -1,3 +1,4 @@
+import { memo } from 'react'
 function StatCard({ label, value, accentColor }) {
   return (
     <div className={`bg-white rounded-xl px-4 py-3.5 border-l-4 ${accentColor}`}>
@@ -7,4 +8,4 @@ function StatCard({ label, value, accentColor }) {
   )
 }
 
-export default StatCard
+export default memo(StatCard)

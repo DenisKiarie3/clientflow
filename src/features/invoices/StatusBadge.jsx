@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { STATUS_META } from '../../constants/invoiceStatus'
 
 function StatusBadge({ status }) {
@@ -9,4 +10,4 @@ function StatusBadge({ status }) {
   )
 }
 
-export default StatusBadge
+export default memo(StatusBadge)
