@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import { invoiceDetailPath } from '../../constants/routes'
 import { calculateTotal } from '../../utils/invoiceCalculations'
@@ -24,4 +25,4 @@ function InvoiceCard({ invoice, currency = 'USD' }) {
   )
 }
 
-export default InvoiceCard
+export default memo(InvoiceCard)

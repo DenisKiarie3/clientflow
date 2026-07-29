@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import { clientDetailPath } from '../../constants/routes'
 
@@ -16,4 +17,4 @@ function ClientCard({ client }) {
   )
 }
 
-export default ClientCard
+export default memo(ClientCard)
