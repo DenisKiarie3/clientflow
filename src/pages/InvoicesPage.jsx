@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { RiAddLine } from 'react-icons/ri'
+import { RiAddLine, RiFileList3Line } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { fetchClients, selectClientsStatus } from '../features/clients/clientsSlice'
@@ -15,6 +15,8 @@ import useDebounce from '../hooks/useDebounce'
 import { ROUTES } from '../constants/routes'
 import { STATUS_META } from '../constants/invoiceStatus'
 import { fetchSettings, selectSettingsData, selectSettingsStatus } from '../features/settings/settingsSlice'
+import { CardSkeleton } from '../components/common/Skeletons'
+import EmptyState from '../components/common/EmptyState'
 
 const STATUS_FILTER_OPTIONS = [
   { value: 'all', label: 'All statuses' },
@@ -84,10 +86,26 @@ function InvoicesPage() {
         </select>
       </div>
 
-      {isLoading && <p className="text-sm text-slate">Loading invoices…</p>}
+      {isLoading && (
+        <div role="status" aria-live="polite" aria-busy="true">
+          <span className="sr-only">Loading invoices…</span>
+          <div className="flex flex-col gap-2" aria-hidden="true">
+            {Array.from({ length: 4 }).map((_, i) => <CardSkeleton key={i} />)}
+          </div>
+        </div>
+      )}
       {invoicesStatus === 'failed' && <p className="text-sm text-coral-deep">{invoicesError}</p>}
       {invoicesStatus === 'succeeded' && invoices.length === 0 && (
-        <p className="text-sm text-slate">No invoices yet. Create your first one.</p>
+        <EmptyState
+          icon={RiFileList3Line}
+          title="Create your first invoice"
+          description="Bill a client and track payment status right from your dashboard."
+          action={
+            <Link to={ROUTES.INVOICE_CREATE} className="bg-violet text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-violet/90">
+              New invoice
+            </Link>
+          }
+        />
       )}
       {invoicesStatus === 'succeeded' && invoices.length > 0 && filteredInvoices.length === 0 && (
         <p className="text-sm text-slate">No invoices match your search or filter.</p>

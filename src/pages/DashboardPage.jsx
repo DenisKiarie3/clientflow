@@ -9,6 +9,8 @@ import RecentInvoices from '../features/dashboard/RecentInvoices'
 import { formatCurrency } from '../utils/formatCurrency'
 import { ROUTES } from '../constants/routes'
 import { fetchSettings, selectSettingsData, selectSettingsStatus } from '../features/settings/settingsSlice'
+import { StatCardSkeleton } from '../components/common/Skeletons'
+import { CardSkeleton } from '../components/common/Skeletons'
 
 function DashboardPage() {
   const dispatch = useAppDispatch()
@@ -33,7 +35,15 @@ function DashboardPage() {
       <h2 className="font-display font-bold text-xl text-ink">Dashboard</h2>
 
       {isLoading ? (
-        <p className="text-sm text-slate">Loading dashboard…</p>
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3" role="status" aria-live="polite" aria-busy="true">
+            <span className="sr-only">Loading dashboard…</span>
+            {Array.from({ length: 3 }).map((_, i) => <StatCardSkeleton key={i} />)}
+          </div>
+          <div className="flex flex-col gap-2" aria-hidden="true">
+            {Array.from({ length: 3 }).map((_, i) => <CardSkeleton key={i} />)}
+          </div>
+        </>
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
