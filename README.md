@@ -64,7 +64,7 @@ npm run dev
 
 ## Known limitations
 
-This is a frontend-only project by design — see `docs/DJANGO_INTEGRATION.md` for what's intentionally deferred to a real backend:
+This is a frontend-only project by design — see [docs/DJANGO_INTEGRATION.md](docs/DJANGO_INTEGRATION.md) for what's intentionally deferred to a real backend:
 
 - Data resets on page refresh (mock service state lives in memory, not a database)
 - Auth is simulated client-side and not secure — real password verification must happen server-side
