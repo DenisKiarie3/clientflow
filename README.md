@@ -2,7 +2,7 @@
 
 A freelancer invoicing and client management app, built as a frontend architecture portfolio project — full CRUD, normalized Redux state, form validation, protected routes, and a service-layer boundary specifically designed to swap in a real Django backend later with minimal changes.
 
-**Live demo:** [https://clientflow-invoice.netlify.app/](#)
+**Live Demo:** [clientflow-invoice App](https://clientflow-invoice.netlify.app/)
 **Demo login:** `jordan@example.com` / `password123`
 
 
